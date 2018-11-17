@@ -24,12 +24,9 @@ export class HeroesComponent implements OnInit {
     this.getHeroesV1();
   }
 
-  getHeroes(): void {
-    this.persons = this.heroService.getHeroes()
-  }
 
   getHeroesV1(): void{
-    this.heroService.getHeroesObservable()
+    this.heroService.getHeroes()
       .subscribe(result => this.persons = result)
   }
 
@@ -38,5 +35,14 @@ export class HeroesComponent implements OnInit {
   onSelect(a: Hero) {
     console.log(a);
     this.selectedHero = a
+  }
+
+  add(name: String): void{
+    name = name.trim();
+    if (!name) { return; }
+    this.heroService.addHero({ name } as Hero)
+      .subscribe(hero => {
+        this.persons.push(hero);
+      });
   }
 }
